@@ -1,0 +1,25 @@
+import logging
+from ETL.extract.data_request import get_user_saved_tracks
+
+def configurar_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler("etl_proceso.log"),
+            logging.StreamHandler() # Para ver los logs en consola también
+        ]
+    )
+
+if __name__ == "__main__":
+    configurar_logging()
+    
+    logger = logging.getLogger(__name__)
+    logger.info("Logger configurado correctamente")
+
+    try:
+        logger.info("Iniciando proceso ETL...")
+        get_user_saved_tracks()
+        logger.info("Proceso ETL finalizado exitosamente.")
+    except Exception as e:
+        logger.error(f"Error en el proceso ETL: {e}", exc_info=True)

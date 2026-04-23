@@ -1,0 +1,4 @@
+/spotyenv
+.env
+*.log
+token_cache.json
