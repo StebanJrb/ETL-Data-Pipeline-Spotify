@@ -91,34 +91,38 @@ def token_getter():
 
 def get_user_saved_tracks():
     get_access_token()  # Genera o renueva el token
-
     total_tracks = []
-    epochs = 45
     index = 0
 
-    for i in range(epochs):
-        try:
-            auth, token = token_getter()
-            url = f"https://api.spotify.com/v1/me/tracks?market=ES&limit=50&offset={index}"
-            header = {"Authorization": f"{auth} {token}"}
+    if not os.path.exists(saving_path):
+        while True:
+            try:
+                auth, token = token_getter()
+                url = f"https://api.spotify.com/v1/me/tracks?market=ES&limit=50&offset={index}"
+                header = {"Authorization": f"{auth} {token}"}
 
-            response = requests.get(url, headers=header)
-            if response.status_code != 200:
-                raise Exception(f"Error getting tracks: {response.status_code} - {response.text}")
+                response = requests.get(url, headers=header)
+                if response.status_code != 200:
+                    raise Exception(f"Error getting tracks: {response.status_code} - {response.text}")
 
-            data = response.json()
-            items = data.get("items", [])
-            total_tracks.extend(items)
+                data = response.json()
+                items = data.get("items", [])
+                total_tracks.extend(items)
 
-            logger.info(f"Fetched {len(items)} tracks (offset {index})")
-            index += 50
-            time.sleep(0.3)
+                logger.info(f"Fetched {len(items)} tracks (offset {index})")
+                index += 50
+                time.sleep(0.3)
 
-        except Exception as e:
-            logger.error(f">> Error {e}")
+                if not items:
+                    logger.info("No more tracks to fetch.")
+                    break
 
-    # Guardar todo al final
-    with open(saving_path, "w", encoding="utf-8") as file:
-        json.dump(total_tracks, file, indent=4)
+            except Exception as e:
+                logger.error(f">> Error {e}")
 
-    logger.info(f"Saved total: {len(total_tracks)} tracks")
+            # Guardar todo al final
+        with open(saving_path, "w", encoding="utf-8") as file:
+            json.dump(total_tracks, file, indent=4)
+        logger.info(f"Saved total: {len(total_tracks)} tracks")
+    else:
+        logger.info("Archivo de datos ya existe, no se realizará la extracción.")  

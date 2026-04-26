@@ -1,5 +1,6 @@
 import logging
 from ETL.extract.data_request import get_user_saved_tracks
+from ETL.transform.data_transform import json_to_df
 
 def configurar_logging():
     logging.basicConfig(
@@ -20,6 +21,9 @@ if __name__ == "__main__":
     try:
         logger.info("Iniciando proceso ETL...")
         get_user_saved_tracks()
+        df = json_to_df()
+        print(df.head())
+        df.info()
         logger.info("Proceso ETL finalizado exitosamente.")
     except Exception as e:
         logger.error(f"Error en el proceso ETL: {e}", exc_info=True)
