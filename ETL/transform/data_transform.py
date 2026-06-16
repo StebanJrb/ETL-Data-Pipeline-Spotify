@@ -11,7 +11,7 @@ def json_to_df() -> pd.DataFrame:
         with open(data_json_path, "r", encoding="utf-8") as file:
             items = json.load(file)
 
-        rows = [_transform_item(item) for item in items]
+        rows = [transform_item(item) for item in items]
         rows = [r for r in rows if r is not None]
 
         df = pd.DataFrame(rows)
@@ -23,7 +23,7 @@ def json_to_df() -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def _transform_item(item: dict) -> dict | None:
+def transform_item(item: dict) -> dict | None:
     try:
         track = item["track"]
         album = track["album"]
