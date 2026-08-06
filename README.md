@@ -1,6 +1,10 @@
 # Spotify Data Pipeline
 
 ![AI-Assisted](https://img.shields.io/badge/AI--Assisted-34%25-8A2BE2)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![Spotipy](https://img.shields.io/badge/Spotipy-1DB954?style=flat&logo=spotify&logoColor=white)
 
 ## Overview
 This project pulls every track saved in a user's Spotify library and lands it in a MySQL database, ready to query. It started out as a modular "ETL software" — separate `extract/`, `transform/`, and `load/` packages, most of them placeholders. That structure got in the way more than it helped: the load step never grew past a JSON stub, and the extra folders added indirection without adding value.
